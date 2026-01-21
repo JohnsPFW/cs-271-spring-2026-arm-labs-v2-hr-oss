@@ -84,9 +84,8 @@ _start:
     //
     // YOUR CODE HERE:
 
-    // I'll first move X5 to X8, then add that with itself and store in X7.
-    MOV X5, X8      // X8 = X5
-    ADD X7, X8, X8  // X7 = X8 + X8
+    // I'll be a little diabolical and just move 100 to X6
+    MOV X6, #100
 
     // =========================================================================
     // PROGRAM TERMINATION
