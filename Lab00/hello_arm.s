@@ -2,8 +2,8 @@
 // CS 271 Computer Architecture - Lab 00: Introduction to ARM Assembly
 // Purdue University Fort Wayne
 // =============================================================================
-// STUDENT NAME: ___________________
-// DATE:         ___________________
+// STUDENT NAME: Henry Richhart
+// DATE:         01-21-2026
 // =============================================================================
 //
 // LEARNING OBJECTIVES:
@@ -51,7 +51,8 @@ _start:
     // After this instruction, X3 should equal 25
     //
     // YOUR CODE HERE:
-
+    
+    MOV X3, #25 // x3 = 25
 
     // -------------------------------------------------------------------------
     // EXERCISE 2: Perform addition
@@ -61,6 +62,7 @@ _start:
     //
     // YOUR CODE HERE:
 
+    ADD X4, X2, X3 // X4 = X2 + X3
 
     // -------------------------------------------------------------------------
     // EXERCISE 3: Perform subtraction
@@ -71,6 +73,7 @@ _start:
     //
     // YOUR CODE HERE:
 
+    SUB X5, X1, X0 // X5 = X1 - X0
 
     // -------------------------------------------------------------------------
     // EXERCISE 4: Create your own calculation
@@ -81,6 +84,9 @@ _start:
     //
     // YOUR CODE HERE:
 
+    // I'll first move X5 to X8, then add that with itself and store in X7.
+    MOV X5, X8      // X8 = X5
+    ADD X7, X8, X8  // X7 = X8 + X8
 
     // =========================================================================
     // PROGRAM TERMINATION
