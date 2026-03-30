@@ -2,8 +2,8 @@
 // CS 271 Computer Architecture - Lab 02: Post-Increment Addressing
 // Purdue University Fort Wayne
 // =============================================================================
-// STUDENT NAME: ___________________
-// DATE:         ___________________
+// STUDENT NAME: Henry Richhart
+// DATE:         03-29-2026
 // =============================================================================
 // OBJECTIVE:
 //   Implement a more efficient string copy using post-increment addressing.
@@ -60,14 +60,14 @@ _strcpyloop:
     // Syntax: LDRB Wt, [Xn], #1
     // -------------------------------------------------------------------------
     
-    // YOUR CODE HERE
+    LDRB    W2, [X0], #1
     
     // -------------------------------------------------------------------------
     // TODO #2: Store byte from W2 to [X1], then increment X1 by 1
     // Syntax: STRB Wt, [Xn], #1
     // -------------------------------------------------------------------------
     
-    // YOUR CODE HERE
+    STRB    W2, [X1], #1
     
     // -------------------------------------------------------------------------
     // TODO #3: Compare X2 to zero
@@ -75,16 +75,11 @@ _strcpyloop:
     // Note: Use X2 (not W2) for the comparison
     // -------------------------------------------------------------------------
     
-    // YOUR CODE HERE
+    CMP     X2, #0
     
     // -------------------------------------------------------------------------
     // TODO #4: Branch back to _strcpyloop if NOT equal to zero
     // Syntax: BNE label
     // -------------------------------------------------------------------------
     
-    // YOUR CODE HERE
-
-    // =========================================================================
-    // STEP 3: Signal Completion
-    // =========================================================================
-    YIELD
+    BNE     _strcpyloop
