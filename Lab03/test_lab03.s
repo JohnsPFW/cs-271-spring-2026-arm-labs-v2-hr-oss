@@ -2,8 +2,8 @@
 // CS 271 Computer Architecture - Lab 03: Instruction Exploration
 // Purdue University Fort Wayne
 // =============================================================================
-// STUDENT NAME: ___________________
-// DATE:         ___________________
+// STUDENT NAME: Henry Richhart
+// DATE:         04-04-2026
 // =============================================================================
 // OBJECTIVE:
 //   Explore various ARM64 instruction types by predicting and verifying
@@ -86,21 +86,21 @@ _TEST:
 // =============================================================================
 // Fill in your predictions, then verify with the waveform viewer:
 //
-// Register | Your Prediction | Actual Value | Correct?
-// ---------|-----------------|--------------|----------
-// X0       |                 |              |
-// X1       |                 |              |
-// X2       |                 |              |
-// X4       |                 |              |
-// X5       |                 |              |
-// X6       |                 |              |
-// X10      |                 |              |
-// X11      |                 |              |
-// X20      |                 |              |
-// X21      |                 |              |
-// X22      |                 |              |
-// X23      |                 |              |
-// X24      |                 |              |
-// X25      |                 |              |
+// Register | Your Prediction    | Actual Value       | Correct?
+// ---------|--------------------|--------------------|----------
+// X0       | 0x00000000000000FF | 0x00000000000000FF | Yes!
+// X1       | 0x00000000000000FC | 0x00000000000000FC | Yes!
+// X2       | 0x00000000000001F8 | 0x00000000000001F8 | Yes!
+// X4       | 0x00000000000001FB | 0x00000000000001FB | Yes!
+// X5       | 0x0000000000000000 | 0x0000000000000000 | Yes!
+// X6       | 0xFFFFFFFFFFFFFFFF | 0xFFFFFFFFFFFFFFFF | Yes!
+// X10      | 0x0000000000000000 | 0x0000000000000000 | Yes!!
+// X11      | 0x00000000000000FF | 0x00000000000000FF | Yes!!
+// X20      | 0x0000000000000003 | 0x0000000000000003 | Yes!!
+// X21      | 0x8000000000000000 | 0x8000000000000000 | Yes!!!
+// X22      | 0xC00000000000003F | 0xC00000000000003F | Yes!!!
+// X23      | 0x00000000000004F8 | 0x00000000000004F8 | Yes!!!!
+// X24      | 0xFFFFFFFFFFFFFF04 | 0xFFFFFFFFFFFFFF04 | Yes!!!!
+// X25      | 0xFFFFFFFFFFFFFFE0 | 0xFFFFFFFFFFFFFFE0 | Yes!!!!!
 //
 // =============================================================================
