@@ -229,7 +229,7 @@ wire next_instruction_valid;
 
 	wire [63:0] aligned_id_pc = {ID_PC, 2'b00};
 	always @ (posedge clk) if(npe_stop) begin
-		ID_PC <= ...;
+		ID_PC <= PC;
 	end
 
 /******************************************************************************/
@@ -368,8 +368,8 @@ wire next_instruction_valid;
 	end else if(npe_stop) begin
 		EX_write_en      <= ID_write_en;
 		EX_wload_en      <= ID_wload_en;
-		EX_mem_write     <= ID_ ...;
-		EX_mem_read      <= ID_ ...;
+		EX_mem_write     <= ID_mem_write;
+		EX_mem_read      <= ID_mem_read;
 		EX_pstate_en     <= ID_pstate_en;
 		EX_nextPC_mux    <= ID_nextPC_mux;
 		EX_PC_add_op_mux <= ID_PC_add_op_mux;
@@ -381,43 +381,43 @@ wire next_instruction_valid;
 		EX_shamt            <= ID_shamt;
 		EX_imm_sz           <= ID_imm_sz;
 		EX_imm_n            <= ID_imm_n;
-		EX_FnH              <= ID_ ...;
+		EX_FnH              <= ID_FnH;
 		EX_barrel_op        <= ID_barrel_op;
 		EX_barrel_in_mux    <= ID_barrel_in_mux;
 		EX_barrel_u_in_mux  <= ID_barrel_u_in_mux;
 		EX_bitext_sign_ext  <= ID_bitext_sign_ext;
 		EX_alu_op_a_mux     <= ID_alu_op_a_mux;
-		EX_alu_op_b_mux     <= ID_ ...;
-		EX_wtmask           <= ID_ ...;
+		EX_alu_op_b_mux     <= ID_alu_op_b_mux;
+		EX_wtmask           <= ID_wtmask;
 		EX_invert_b         <= ID_invert_b;
-		EX_alu_cmd          <= ID_ ...;
+		EX_alu_cmd          <= ID_alu_cmd;
 		EX_out_mux          <= ID_out_mux;
 		EX_condition        <= ID_condition;
 		EX_pstate_mux       <= ID_pstate_mux;
-		EX_br_condition_mux <= ID_ ...;
+		EX_br_condition_mux <= ID_br_condition_mux;
 
 		// to memory stage
-		EX_mem_size     <= ID_ ...;
+		EX_mem_size     <= ID_mem_size;
 		EX_mem_sign_ext <= ID_mem_sign_ext;
 		EX_mem_addr_mux <= ID_mem_addr_mux;
 
 		// to writeback stage
 		EX_rt_addr  <= ID_rt_addr;
-		EX_rd_addr  <= ID_ ...;
+		EX_rd_addr  <= ID_rd_addr;
 		EX_load_FnH <= ID_load_FnH;
 		
 		
 		// -------------------------- Decoded Instruction Logic -------------------------- //
 				case (ID_exec_n_mux)
 			`FEXEC_N_PC:      EX_exec_n <= aligned_id_pc;
-			`FEXEC_N_PC_PAGE: EX_ ... <= {aligned_id_pc[63:12],12'h000};
+			`FEXEC_N_PC_PAGE: EX_exec_n <= {aligned_id_pc[63:12],12'h000};
 			`FEXEC_N_RN:      EX_exec_n <= ID_rn_value;
 			  
 		endcase
 
 		case (ID_exec_m_mux)
 			`FEXEC_M_IMM:     EX_exec_m <= ID_immediate;
-			`FEXEC_M_RM:      EX_ ... <= ID_rm_value;
+			`FEXEC_M_RM:      EX_exec_m <= ID_rm_value;
 			  
 		endcase
 	end
@@ -555,29 +555,29 @@ wire next_instruction_valid;
 		MEM_write_en <= 1'b0;
 	end else if(npe_stop) begin
 		MEM_read     <= EX_mem_read;
-		MEM_write    <= EX_mem_ ...;
+		MEM_write    <= EX_mem_write;
 		MEM_wload_en <= EX_wload_en;
-		MEM_write_en <= EX_ ...;
+		MEM_write_en <= EX_write_en;
 	end
 
 	always @ (posedge clk) if(npe_stop) begin
 		MEM_rn_value <= EX_exec_n;
 		MEM_rt_value <= EX_exec_a;
-		MEM_size     <= EX_mem_ ...;
+		MEM_size     <= EX_mem_size;
 		MEM_sign_ext <= EX_mem_sign_ext;
 		MEM_addr_mux <= EX_mem_addr_mux;
 		// ------------------------------ ALU result logic ------------------ //
 		case (EX_out_mux)
 			`EX_OUT_ALU:    MEM_ex_out <= EX_FnH? alu_out    : {{32{1'b0}},alu_out[31:0]};
 			`EX_OUT_CND:    MEM_ex_out <= EX_FnH? cnd_out    : {{32{1'b0}},cnd_out[31:0]};
-			`EX_OUT_CTRL:   MEM_ ... <= ctrl_out;
-			`EX_OUT_PC_4:   MEM_ ... <= aligned_id_pc;
+			`EX_OUT_CTRL:   MEM_ex_out <= ctrl_out;
+			`EX_OUT_PC_4:   MEM_ex_out <= aligned_id_pc;
 			default:        MEM_ex_out <= 64'hxxxx_xxxx_xxxx_xxxx;
 		endcase
 
 		// To writeback
-		MEM_rt_addr  <= EX_rt_ ...;
-		MEM_rd_addr  <= EX_rd_ ...;
+		MEM_rt_addr  <= EX_rt_addr;
+		MEM_rd_addr  <= EX_rd_addr;
 		MEM_load_FnH <= EX_load_FnH;
 	end
 
@@ -597,11 +597,11 @@ assign data_memory_write = MEM_write;
 		WB_write_en <= 1'b0;
 	end else if(npe_stop) begin
 		WB_wload_en   <= MEM_wload_en;
-		WB_write_en   <= MEM_write_ ...;
+		WB_write_en   <= MEM_write_en;
 	end
 
 	always @ (posedge clk) if(npe_stop) begin
-		WB_ex_out     <= MEM_ex_ ...;
+		WB_ex_out     <= MEM_ex_out;
 		WB_rt_addr    <= MEM_rt_addr;
 		WB_rd_addr    <= MEM_rd_addr;
 		
@@ -631,7 +631,7 @@ end
 
 	
 	always @ (*) begin
-		WB_memory_out =  WB_read ? ld_ext_ ... :
+		WB_memory_out =  WB_read ? ld_ext_memory_out :
 		64'hxxxx_xxxx_xxxx_xxxx;
 	end
 

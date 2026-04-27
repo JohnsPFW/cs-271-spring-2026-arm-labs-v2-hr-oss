@@ -2,8 +2,8 @@
 // CS 271 Computer Architecture - Lab 04: Pipeline Hazards
 // Purdue University Fort Wayne
 // =============================================================================
-// STUDENT NAME: ___________________
-// DATE:         ___________________
+// STUDENT NAME: Henry Richhart
+// DATE:         04-27-2026
 // =============================================================================
 // OBJECTIVE:
 //   Understand how pipelining affects instruction execution and learn to
@@ -49,12 +49,17 @@ _start:
     //
     // Clock 1: ADD X9, X1, X2  - computes X9
     // Clock 2: AND X10, X9, X3 - needs X9 (but X9 isn't written back yet!)
+    // In this naive design, the dependent instructions may therefore show
+    // UNDEF in the waveform rather than clean numeric values.
     //
     // TODO: Observe in the waveform how the processor handles this.
     
 _test2:
     ADD     X9, X1, X2          // X9 = X1 + X2 = 27
-    AND     X10, X9, X3         // X10 = X9 AND X3 (HAZARD: X9 not ready!)
+    NOP                         // first NOP command
+    NOP                         // second NOP command
+    NOP                         // third NOP command!
+    AND     X10, X9, X3         // X10 = X9 AND X3
     ORR     X11, X5, X9         // X11 = X5 OR X9
     SUB     X12, X9, X7         // X12 = X9 - X7
     
@@ -76,24 +81,4 @@ _test2:
     // =========================================================================
     YIELD
 
-// =============================================================================
-// ANALYSIS QUESTIONS
-// =============================================================================
-//
-// After running the simulation and viewing waveforms, answer these:
-//
-// 1. In Part 3, how many cycles does it take from when X9 is computed to
-//    when X10 uses it?
-//
-// 2. Does the pipeline stall (wait) or forward (bypass) to handle the
-//    RAW hazard on X9?
-//
-// 3. What values do you observe in X10, X11, and X12?
-//
-// 4. If the processor didn't have forwarding, how many NOPs would you
-//    need to insert between the ADD and AND instructions?
-//
-// 5. Count the total cycles from _start to YIELD. How does this compare
-//    to the number of instructions?
-//
-// =============================================================================
+// Record your analysis and answers in analysis.md
