@@ -38,6 +38,7 @@ module test_Educore();
 	always #1 main_clk = ~main_clk;
 	reg core_clk = 0;
 	reg mem_clk = 0;
+	reg [31:0] cycle_count = 0;
 	
 	// Clock ratio for single-cycle Educore
 	//always #2 mem_clk = ~mem_clk;
@@ -46,6 +47,15 @@ module test_Educore();
 	// Clock ratio for pipelined EDUCORE. Changing the ratio and phase can produce unpredictable results. 
 	always #2 mem_clk = ~mem_clk;
 	always #2 core_clk = ~core_clk;
+
+	// Count architecturally visible core cycles so students can line waveform
+	// events up with pipeline stages without manually counting clock edges.
+	always @ (posedge core_clk or negedge nreset) begin
+		if(!nreset)
+			cycle_count <= 0;
+		else
+			cycle_count <= cycle_count + 1;
+	end
 	
 	
 	wire clk_en = 1;				  // Clock enable signal
